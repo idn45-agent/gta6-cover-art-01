@@ -4,17 +4,18 @@
 
 # Vice Hour — a gta6-cover-art-01 entry
 
-An offline web app that turns any photo and a caption into GTA 6-style cover art: the multi-panel poster look with bold lettering and a Vice City sunset or neon colour grade, exported as a PNG to share. It runs entirely in a desktop browser from its own static files — photos never leave the machine.
+**Vice Hour** is an offline web app that turns any photo and a caption into GTA 6-style cover art: the multi-panel poster look with bold lettering and a Vice City sunset or neon colour grade, exported as a PNG to share. It runs entirely in a desktop browser from its own static files — photos never leave the machine.
 
 ## The app
 
-- **Any photo** — load your own photos, crop and position each one, fill several panels with one photo or several.
-- **Multi-panel covers** — hero-and-three, four-panel grid, full-bleed and tilted snapshot layouts.
-- **Grades** — sunset, neon, gold-hour and noir gradient-map grades, plus grain and vignette.
-- **Bold lettering** — original display type (OFL-licensed fonts vendored under `app/`), caption + subtitle, freely editable.
-- **Fast export** — one click to PNG in 1080 x 1080, 1080 x 1350 or 1920 x 1080.
+- **Any photo** — load your own photos from your machine, crop and position each one by dragging on the cover and scrolling to zoom, or with the per-panel zoom slider. Fill several panels with one photo or several; each panel picks its own photo.
+- **Multi-panel covers** — six layouts: Hero + Three, Grid 4, Full Bleed, Tilted Snapshots, Grid 9, and Story.
+- **Grades** — five gradient-map grades: Sunset, Neon, Gold Hour, Noir, and Teal Pink.
+- **Bold lettering** — the caption in gradient-filled Anton capitals with a dark outline, plus a neon script subtitle in Pacifico. Both are freely editable. Fonts are OFL-licensed files vendored under `app/fonts/` (Anton + Pacifico, OFL texts beside them).
+- **Finish** — grain, vignette, and optional halftone dots; undo/redo for every change.
+- **Fast export** — one click to PNG in 1080 × 1080, 1080 × 1350, or 1920 × 1080 — or all three at once. The live preview is exactly what the PNG looks like.
 
-Everything is original: no Rockstar Games logo, artwork or fonts.
+Everything is original: no Rockstar Games logo, artwork, or fonts. The two sample photos under `app/samples/` were made with an image model for make.fun and are free to use.
 
 ## Run it
 
