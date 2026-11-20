@@ -4,95 +4,112 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vice Hour — Cover Art Studio</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e8546d'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'%3EV%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23160a24'/%3E%3Ccircle cx='22' cy='10' r='5' fill='%23ffb03a'/%3E%3Crect x='4' y='20' width='24' height='3' fill='%23ff5e7d'/%3E%3Crect x='4' y='25' width='17' height='3' fill='%237df9ff'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="topbar">
-  <div class="brand"><span class="brand-mark">VH</span> Vice Hour <em>cover art studio</em></div>
+  <div class="brand">
+    <span class="brand-mark">VH</span>
+    <div>
+      <h1>Vice Hour</h1>
+      <p>Cover art studio — your photo, poster glory.</p>
+    </div>
+  </div>
   <div class="top-actions">
-    <button id="btn-undo" type="button">Undo</button>
-    <button id="btn-redo" type="button">Redo</button>
-    <button id="btn-shuffle" type="button">Shuffle look</button>
+    <button type="button" id="undoBtn" class="ghost">Undo</button>
+    <button type="button" id="redoBtn" class="ghost">Redo</button>
+    <button type="button" id="shuffleBtn" class="ghost">Shuffle look</button>
+    <button type="button" id="exportAllBtn" class="ghost">Export all sizes</button>
+    <button type="button" id="exportBtn" class="primary">Export PNG</button>
   </div>
 </header>
 
 <main class="workspace">
-  <section class="stage-wrap">
-    <div class="stage" id="stage">
-      <canvas id="stage-canvas" width="1080" height="1080"></canvas>
-    </div>
-    <p class="hint">Drag on the cover to pan the selected panel. Scroll to zoom it. Click a panel to select it.</p>
-    <div class="export-bar">
-      <span>Export PNG:</span>
-      <button type="button" data-export="1080x1080">1080 × 1080</button>
-      <button type="button" data-export="1080x1350">1080 × 1350</button>
-      <button type="button" data-export="1920x1080">1920 × 1080</button>
-      <button type="button" data-export="1080x1920">1080 × 1920 story</button>
-      <button type="button" id="btn-export-all">Export all sizes</button>
-    </div>
-  </section>
-
-  <aside class="panel">
-    <fieldset>
-      <legend>Photos</legend>
-      <label class="file-btn">Add your photos
-        <input id="file-input" type="file" accept="image/*" multiple hidden>
+  <aside class="controls">
+    <section>
+      <h2>1 · Photos</h2>
+      <label class="upload-btn">
+        Add your photos
+        <input type="file" id="photoFiles" accept="image/*" multiple hidden>
       </label>
-      <div class="sample-row">
-        <button type="button" id="btn-sample-pier">Sample: Pier</button>
-        <button type="button" id="btn-sample-boulevard">Sample: Boulevard</button>
-      </div>
-      <div id="photo-strip" class="photo-strip"></div>
       <div class="row">
-        <label>Selected panel <select id="panel-select"></select></label>
-        <label>Panel photo <select id="panel-photo"></select></label>
+        <button type="button" id="sampleBoulevard" class="pick small">+ Boulevard sample</button>
+        <button type="button" id="samplePier" class="pick small">+ Pier sample</button>
       </div>
-      <div class="row">
-        <label>Zoom <input id="panel-zoom" type="range" min="1" max="3" step="0.02" value="1"></label>
-        <button type="button" id="btn-swap">Swap first two panels</button>
-      </div>
-      <label class="check"><input id="ink-toggle" type="checkbox"> Ink / posterize panels</label>
-    </fieldset>
+      <div id="photoStrip" class="strip"></div>
+      <p class="hint">Photos never leave this machine. Click a thumbnail to drop it into the selected panel.</p>
+    </section>
 
-    <fieldset>
-      <legend>Words</legend>
-      <label>Caption <input id="caption-input" type="text" maxlength="26" value="VICE HOUR"></label>
-      <label>Subtitle (script) <input id="subtitle-input" type="text" maxlength="40" value="one last ride"></label>
-      <label>Title treatment
-        <select id="treatment-select">
-          <option value="gradient">Gradient capitals</option>
-          <option value="halftone-block">Halftone block</option>
-          <option value="outline-chrome">Outline chrome</option>
-        </select>
+    <section>
+      <h2>2 · Panel</h2>
+      <div class="row">
+        <select id="panelPick" aria-label="Selected panel"></select>
+        <button type="button" id="swapBtn" class="pick small">Swap with next</button>
+      </div>
+      <div id="panelPhotoPick" class="row wrap"></div>
+      <label class="slider-line">Zoom
+        <input type="range" id="zoomRange" min="100" max="320" value="100">
       </label>
-    </fieldset>
+      <p class="hint">Or drag a photo inside its panel to reposition it, and scroll over a panel to zoom.</p>
+    </section>
 
-    <fieldset>
-      <legend>Layout &amp; grade</legend>
-      <label>Layout <select id="layout-select"></select></label>
-      <label>Colour grade <select id="grade-select"></select></label>
-      <div class="preset-grid" id="preset-grid"></div>
-    </fieldset>
+    <section>
+      <h2>3 · Layout</h2>
+      <div id="layoutGrid" class="grid"></div>
+    </section>
 
-    <fieldset>
-      <legend>Decorations</legend>
-      <label class="check"><input type="checkbox" data-deco="badge" checked> Star-burst badge</label>
-      <label>Badge text <input id="badge-input" type="text" maxlength="18" value="VICE HOUR"></label>
-      <label class="check"><input type="checkbox" data-deco="stars" checked> Heat-meter stars</label>
-      <label class="check"><input type="checkbox" data-deco="issue" checked> Magazine issue line</label>
-      <label>Issue text <input id="issue-input" type="text" maxlength="30" value="VOL. 06 — LEONIDA"></label>
-      <label class="check"><input type="checkbox" data-deco="barcode"> Barcode block</label>
-      <label class="check"><input type="checkbox" data-deco="leak" checked> Light leak</label>
-      <label class="check"><input type="checkbox" data-deco="grain"> Film grain</label>
-      <label class="check"><input type="checkbox" data-deco="vignette" checked> Vignette</label>
-      <label class="check"><input type="checkbox" data-deco="halftone"> Halftone dots</label>
-    </fieldset>
+    <section>
+      <h2>4 · Colour grade</h2>
+      <div id="gradeGrid" class="grid"></div>
+      <label class="check">
+        <input type="checkbox" id="inkToggle"> Ink poster effect (flat tones, drawn edges)
+      </label>
+    </section>
+
+    <section>
+      <h2>5 · Words</h2>
+      <label class="field">Caption
+        <input type="text" id="captionInput" maxlength="30" value="VICE HOUR">
+      </label>
+      <label class="field">Script subtitle
+        <input type="text" id="subtitleInput" maxlength="42" value="one last ride">
+      </label>
+      <label class="field">Badge text
+        <input type="text" id="badgeInput" maxlength="10" value="HOT">
+      </label>
+      <div id="treatmentGrid" class="grid"></div>
+    </section>
+
+    <section>
+      <h2>6 · Decorations</h2>
+      <div id="decoList" class="checks"></div>
+    </section>
+
+    <section>
+      <h2>7 · One-click looks</h2>
+      <div id="presetRow" class="row wrap"></div>
+    </section>
+
+    <section>
+      <h2>8 · Export size</h2>
+      <select id="sizePick" aria-label="Export size"></select>
+      <p class="hint">The preview is painted by the same code as the PNG export — what you see is the file you get.</p>
+    </section>
   </aside>
+
+  <section class="stage">
+    <div class="canvas-wrap">
+      <canvas id="stageCanvas" width="1080" height="1080"></canvas>
+    </div>
+    <p id="statusLine" class="status">Loading the studio…</p>
+  </section>
 </main>
 
-<footer class="foot">Vice Hour is an original fan-made poster tool. Photos never leave your device — everything renders locally in your browser.</footer>
+<footer class="foot">
+  <span>Vice Hour is an original fan-made poster toy. Lettering set in Anton and Pacifico (SIL Open Font License, see fonts folder).</span>
+</footer>
 
-<script type="module" src="src/studio.js"></script>
+<script type="module" src="src/editor.js"></script>
 </body>
 </html>
