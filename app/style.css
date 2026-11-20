@@ -1,39 +1,98 @@
-@font-face { font-family: 'Anton'; src: url('./fonts/Anton-Regular.ttf') format('truetype'); font-display: swap; }
-@font-face { font-family: 'Pacifico'; src: url('./fonts/Pacifico-Regular.ttf') format('truetype'); font-display: swap; }
+@font-face {
+  font-family: 'Anton';
+  src: url('fonts/Anton-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pacifico';
+  src: url('fonts/Pacifico-Regular.ttf') format('truetype');
+  font-display: swap;
+}
 
-html, body { margin: 0; min-height: 100%; background: #17101f; color: #f4ecff; font: 15px/1.45 system-ui, sans-serif; }
-.app { display: flex; gap: 28px; align-items: flex-start; justify-content: center; padding: 24px; box-sizing: border-box; }
-.controls { display: flex; flex-direction: column; gap: 14px; width: 320px; flex: none; }
-#brand { margin: 0; font-family: 'Anton', 'Arial Black', sans-serif; font-size: 44px; letter-spacing: 1px; line-height: 1; background: linear-gradient(180deg, #ffd76a, #ff7a3d 55%, #ff3d7e); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.tagline { margin: 0; color: #c9b8e0; }
-fieldset { border: 1px solid #3d2b58; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin: 0; background: #1f1529; }
-legend { font-weight: 700; color: #ffd76a; padding: 0 6px; }
-label { display: flex; flex-direction: column; gap: 5px; font-weight: 600; font-size: 13px; }
-label.check { flex-direction: row; align-items: center; }
-.hint { margin: 0; color: #a894c4; font-size: 12.5px; font-weight: 400; }
-input[type=text], select { font: inherit; padding: 8px; border: 1px solid #57406f; border-radius: 6px; background: #2a1a3d; color: #f4ecff; }
-input[type=range] { width: 100%; accent-color: #ff5e7a; }
-button { font: inherit; font-weight: 700; padding: 9px 12px; border: 0; border-radius: 8px; background: #3a2a52; color: #fff; cursor: pointer; }
-button:hover { background: #4a3566; }
-button:disabled { opacity: 0.4; cursor: default; }
-button.primary { background: linear-gradient(90deg, #ff7a3d, #ff3d7e); }
-button.primary:hover { background: linear-gradient(90deg, #ff8a4d, #ff4d8e); }
-.row { display: flex; gap: 8px; }
-.row button { flex: 1; }
-.file-label { cursor: pointer; }
-#status { margin: 0; color: #7df9c8; min-height: 1.2em; }
-.preview { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; position: sticky; top: 24px; }
-#cover { width: min(72vh, 62vw); height: auto; aspect-ratio: 1 / 1; max-height: 78vh; box-shadow: 0 12px 44px rgba(0, 0, 0, 0.55); border-radius: 4px; cursor: grab; touch-action: none; }
-#cover:active { cursor: grabbing; }
-.preview-note { margin: 0; color: #a894c4; font-size: 13px; }
-body.shot-cover { overflow: hidden; }
-body.shot-cover .controls, body.shot-cover .preview-note { display: none; }
-body.shot-cover .app { padding: 0; display: block; }
-body.shot-cover .preview { display: block; position: static; }
-body.shot-cover #cover { display: block; width: 100vw; height: 100vh; max-height: none; aspect-ratio: auto; box-shadow: none; border-radius: 0; }
-body.shot-editor #cover { width: min(86vh, 70vw); }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #150b24;
+  color: #f6eefc;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  background: linear-gradient(90deg, #2b1055, #7a1e5e, #e8546d);
+}
+
+.brand { font-family: 'Anton', sans-serif; font-size: 24px; letter-spacing: 1px; }
+.brand em { font-family: 'Pacifico', cursive; font-style: normal; font-size: 16px; color: #ffd23e; margin-left: 8px; }
+.brand-mark {
+  background: #ffd23e; color: #160a24; padding: 2px 8px; border-radius: 4px; margin-right: 8px;
+}
+
+button {
+  background: #2c1a47; color: #f6eefc; border: 1px solid #6d4fa1;
+  border-radius: 6px; padding: 7px 12px; cursor: pointer; font-size: 13px;
+}
+button:hover { background: #3d2563; border-color: #ffd23e; }
+
+.workspace {
+  display: flex; gap: 18px; padding: 16px 18px; align-items: flex-start;
+}
+
+.stage-wrap { flex: 1 1 auto; min-width: 320px; }
+.stage {
+  background: #0d0716; border: 1px solid #3d2563; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; padding: 14px;
+}
+#stage-canvas {
+  max-width: 100%; max-height: 72vh; width: auto; height: auto;
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.6); cursor: grab; touch-action: none;
+}
+.hint { color: #b9a8d9; font-size: 12.5px; }
+
+.export-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 6px; }
+.export-bar span { font-size: 13px; color: #ffd23e; font-weight: 600; }
+
+.panel { flex: 0 0 330px; display: flex; flex-direction: column; gap: 12px; }
+fieldset {
+  border: 1px solid #3d2563; border-radius: 10px; padding: 10px 12px 12px; margin: 0;
+  background: #1d1133;
+}
+legend { font-family: 'Anton', sans-serif; letter-spacing: 1px; color: #ffd23e; padding: 0 6px; }
+label { display: block; font-size: 13px; margin: 7px 0; }
+label.check { display: flex; gap: 8px; align-items: center; }
+input[type='text'], select {
+  width: 100%; margin-top: 3px; padding: 7px 8px; border-radius: 6px;
+  border: 1px solid #6d4fa1; background: #150b24; color: #f6eefc; font-size: 13px;
+}
+input[type='range'] { width: 100%; }
+.row { display: flex; gap: 10px; }
+.row label { flex: 1; }
+.file-btn {
+  display: inline-block; background: #e8546d; color: #fff; padding: 8px 14px;
+  border-radius: 6px; cursor: pointer; font-weight: 600;
+}
+.sample-row { display: flex; gap: 8px; margin-top: 8px; }
+.photo-strip { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.photo-strip img {
+  width: 52px; height: 52px; object-fit: cover; border-radius: 6px;
+  border: 2px solid transparent; cursor: pointer;
+}
+.photo-strip img.active { border-color: #ffd23e; }
+.preset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+
+.foot { padding: 10px 18px 18px; color: #8f7db5; font-size: 12px; }
+
+body.shot-mode .panel, body.shot-mode .topbar, body.shot-mode .foot,
+body.shot-mode .hint, body.shot-mode .export-bar { display: none; }
+body.shot-mode .workspace { padding: 0; }
+body.shot-mode .stage { border: none; border-radius: 0; padding: 0; background: #000; }
+body.shot-mode #stage-canvas { max-width: none; max-height: none; box-shadow: none; }
+
 @media (max-width: 900px) {
-  .app { flex-direction: column; }
-  .controls { width: 100%; }
-  #cover { width: 100%; max-height: none; }
+  .workspace { flex-direction: column; }
+  .panel { flex: 1 1 auto; width: 100%; }
 }
